@@ -1,0 +1,32 @@
+@startuml
+class Shape {
+    generateParticles()
+} 
+class BaseParticleGenerator
+BaseParticleGenerator <|-- SurfaceParticleGenerator
+class SPHAdaptation
+class BaseParticles
+class VolumetricParticles
+class SurfaceParticles
+BaseParticles <|-- VolumetricParticles
+BaseParticles <|-- SurfaceParticles
+VolumetricParticles <- LatticeParticleGenerator 
+SurfaceParticles <- SurfaceParticleGenerator
+BaseParticleGenerator <|-- LatticeParticleGenerator
+LatticeParticleGenerator <|-- ThickSurfaceParticleGenerator
+SurfaceParticles <- ThickSurfaceParticleGenerator 
+Shape o-- LatticeParticleGenerator
+Shape o-- ThickSurfaceParticleGenerator
+SPHBody o-- Shape
+BaseParticles *-- SPHAdaptation
+SPHBody <|-- RealBody
+SPHBody <|-- ObserverBody
+RealBody <|-- VolumetricBody
+VolumetricBody <|-- FluidBody
+VolumetricBody <|-- SolidBody
+VolumetricBody o-- VolumetricParticles
+SurfaceBody o-- SurfaceParticles
+SPHBody o-- BaseParticles
+RealBody <|-- SurfaceBody
+SurfaceBody <|-- ThinStructure
+@enduml
