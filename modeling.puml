@@ -1,7 +1,11 @@
 @startuml
-class Shape {
-    generateParticles()
-} 
+class Shape  
+class SPHBody{
+    +defineAdaptation()
+    +defineShape()
+    +generateParticles()
+    +definePhysicalModel()
+}
 class BaseParticleGenerator
 BaseParticleGenerator <|-- SurfaceParticleGenerator
 class SPHAdaptation
@@ -15,18 +19,11 @@ SurfaceParticles <- SurfaceParticleGenerator
 BaseParticleGenerator <|-- LatticeParticleGenerator
 LatticeParticleGenerator <|-- ThickSurfaceParticleGenerator
 SurfaceParticles <- ThickSurfaceParticleGenerator 
-Shape o-- LatticeParticleGenerator
-Shape o-- ThickSurfaceParticleGenerator
-SPHBody o-- Shape
-BaseParticles *-- SPHAdaptation
+SPHBody *-- Shape
+SPHBody *-- BaseParticles
+SPHBody *-- BasePhysicalModel
+SPHBody *-- SPHAdaptation
 SPHBody <|-- RealBody
 SPHBody <|-- ObserverBody
-RealBody <|-- VolumetricBody
-VolumetricBody <|-- FluidBody
-VolumetricBody <|-- SolidBody
-VolumetricBody o-- VolumetricParticles
-SurfaceBody o-- SurfaceParticles
-SPHBody o-- BaseParticles
-RealBody <|-- SurfaceBody
-SurfaceBody <|-- ThinStructure
+BasePhysicalModel *-- BaseMaterial
 @enduml
