@@ -4,7 +4,9 @@ class SPHBody{
     +defineAdaptation()
     +defineShape()
     +generateParticles()
-    +definePhysicalModel()
+}
+class RealBody{
+    +definePhysicalModel()    
 }
 class BaseParticleGenerator
 BaseParticleGenerator <|-- SurfaceParticleGenerator
@@ -14,14 +16,13 @@ class VolumetricParticles
 class SurfaceParticles
 BaseParticles <|-- VolumetricParticles
 BaseParticles <|-- SurfaceParticles
-VolumetricParticles <- LatticeParticleGenerator 
-SurfaceParticles <- SurfaceParticleGenerator
+BaseParticles <|-- LinearParticles
+BaseParticleGenerator <|-- LinearParticleGenerator
 BaseParticleGenerator <|-- LatticeParticleGenerator
 LatticeParticleGenerator <|-- ThickSurfaceParticleGenerator
-SurfaceParticles <- ThickSurfaceParticleGenerator 
 SPHBody *-- Shape
 SPHBody *-- BaseParticles
-SPHBody *-- BasePhysicalModel
+RealBody *-- BasePhysicalModel
 SPHBody *-- SPHAdaptation
 SPHBody <|-- RealBody
 SPHBody <|-- ObserverBody
