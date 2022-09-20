@@ -1,30 +1,54 @@
 @startuml
-class Shape  
+class Shape 
+Shape <|-- LevelsetShape
+LevelsetShape *-- BaseLevelSet 
+class SPHRelation {
+   {abstract} +updateConfiguration()
+}
+SPHRelation *-- BaseNeighborBuilder
+SPHRelation o-- SPHBody
+class BaseNeighborBuilder
+BaseNeighborBuilder <|-- AdaptiveNeighborBuilder
 class SPHBody{
-    +defineAdaptation()
-    +defineShape()
+    +redefineShape()
     +generateParticles()
 }
 class RealBody{
-    +definePhysicalModel()    
+    +redefineAdaptation()
+    +definePhysicalMatter()    
+}
+class BaseAdaptation{
+    +createLevelset() 
+    +createCellLinkedList()
+    +createParticleGenerator()
+    +createNeighborBuilder()    
 }
 class BaseParticleGenerator
 BaseParticleGenerator <|-- SurfaceParticleGenerator
-class SPHAdaptation
-class BaseParticles
-class VolumetricParticles
-class SurfaceParticles
-BaseParticles <|-- VolumetricParticles
-BaseParticles <|-- SurfaceParticles
-BaseParticles <|-- LinearParticles
+class GeometricParticles {
+    +poistions_
+    +volumetrics_
+}
+class SurfaceParticles {
+    +thickness_
+}
+class LinearParticles {
+    +radius_
+}
+GeometricParticles <|-- SurfaceParticles
+GeometricParticles <|-- LinearParticles
 BaseParticleGenerator <|-- LinearParticleGenerator
 BaseParticleGenerator <|-- LatticeParticleGenerator
 LatticeParticleGenerator <|-- ThickSurfaceParticleGenerator
 SPHBody *-- Shape
-SPHBody *-- BaseParticles
-RealBody *-- BasePhysicalModel
-SPHBody *-- SPHAdaptation
+SPHBody *-- GeometricParticles
+class PhysicalMatter {
+    +states_
+}
+RealBody *-- BaseCellLinkedList
+RealBody *-- PhysicalMatter
+SPHBody *-- BaseAdaptation
 SPHBody <|-- RealBody
 SPHBody <|-- ObserverBody
-BasePhysicalModel *-- BaseMaterial
+PhysicalMatter *-- MaterialProperty
 @enduml
